@@ -1,0 +1,61 @@
+/* DDL de Creacion de Tablas */
+use inmobiliaria ;
+/*table INMOBILIARIA ,SERVICES_OPTION,CLIENTE,ESTADO ,CLIENTE_SERVICES,SERVICES_TIME,CLIENTE_STATUS,CONTRATO*/
+CREATE TABLE INMOBILIARIA (id_Inmobiliaria int NOT NULL IDENTITY (1,1) PRIMARY KEY,
+    	            	name varchar(50) NOT NULL)
+CREATE TABLE SERVICES_OPTION (numeroDeOpcion int NOT NULL  IDENTITY(1,1) PRIMARY KEY,
+	                    name varchar(50) NOT NULL),
+                        id_Inmobiliaria int NOT NULL FOREIGN KEY REFERENCES(id_Inmobiliaria),
+                        venta int (10),
+                        alquiler int (10),
+                        compra int  (10),
+                        
+CREATE TABLE CLIENTS (client_id int NOT NULL IDENTITY(1,1) PRIMARY KEY, 
+						id_TickeEstado int NOT NULL FOREIGN KEY REFERENCES(id_TickeEstado),
+					    numeroDeOpcion int NOT NULL FOREIGN KEY REFERENCES(numeroDeOpcion),
+                        Id_Tick_Time int NOT NULL FOREIGN KEY REFERENCES (Id_Tick_Time)
+                        nombre  varchar(100) NOT NULL,
+						apellido varchar(100) NOT NULL,
+                        razonSocial varchar(100) NOT NULL,
+                        DNI_Cuit varchar(100) NOT NULL,
+						email varchar(100) NOT NULL,
+						
+--
+CREATE TABLE ESTADO (ID_TickeEstado int NOT NULL  IDENTITY(1,1) PRIMARY KEY,
+						name char(50) NOT NULL)
+                        Alquilado char (4),
+                        Vendido char (4),
+                        En_Mercado char (4),
+                        EN_Reserva char (4),
+--
+CREATE TABLE CLIENTE_SERVICES (numeroDeServicio int NOT NULL  IDENTITY(1,1) PRIMARY KEY,
+                       name int(4) NOT NULL)
+						ID_TickeEstado char NOT NULL FOREIGN KEY REFERENCES ESTADO (ID_TickeEstado),
+						numeroDeOpcion int NOT NULL FOREIGN KEY REFERENCES SERVICES_OPTION (numeroDeOpcion),
+						Telefono varchar(50),
+						Diereccion varchar(50) NOT NULL,
+						FechaInicio varchar(50) NOT NULL ,
+						client_id int NOT NULL FOREIGN KEY REFERENCES CLIENTS (client_id)
+--
+CREATE TABLE SERVICES_TIME (ticket_status_id int NOT NULL  IDENTITY(1,1) PRIMARY KEY,
+                    	name int (10) NOT NULL)
+--                      ID_TickeEstado char NOT NULL FOREIGN KEY REFERENCES ESTADO (ID_TickeEstado),
+                        semanal data time,
+				        mensual data time,
+                        semestral data time,
+                        Anual data time,
+						
+CREATE TABLE CLIENTE_STATUS (id_Status int NOT NULL  IDENTITY(1,1) PRIMARY KEY,
+                    	name int (10) NOT NULL,
+						ID_Contrato char FOREIGN KEY REFERENCES Contrato(id_Contrato),
+						duration bigint NOT NULL)
+                        activo int (4),
+                        inactivo int (4),
+                        cerrado int (4),
+--
+CREATE TABLE CONTRATO (ID_Contrato int NOT NULL  IDENTITY(1,1) PRIMARY KEY,
+                       id_Status  int NOT NULL FOREIGN KEY REFERENCES  CLIENTE_STATUS(id_Status),
+                       Contrato_Alquiler char(4),
+                       Contrato_Compra char(4),
+                       Contrato_Venta char(4),
+                       Contrato_Cierra char(4),
